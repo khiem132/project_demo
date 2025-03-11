@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Db_Upload_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Tbl_Product">
+          <Key>
+            <PropertyRef Name="_id" />
+          </Key>
+          <Property Name="_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="_price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Product_Image">
+          <Key>
+            <PropertyRef Name="_id" />
+          </Key>
+          <Property Name="_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="_id_pro" Type="int" Nullable="false" />
+          <Property Name="_file_name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="_priority" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Tbl_Product_Image_Tbl_Product">
+          <End Role="Tbl_Product" Type="Self.Tbl_Product" Multiplicity="1" />
+          <End Role="Tbl_Product_Image" Type="Self.Tbl_Product_Image" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Product">
+              <PropertyRef Name="_id" />
+            </Principal>
+            <Dependent Role="Tbl_Product_Image">
+              <PropertyRef Name="_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_product_paging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="page" Type="int" Mode="In" />
+          <Parameter Name="size" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="Db_Upload_ModelStoreContainer">
+          <EntitySet Name="Tbl_Product" EntityType="Self.Tbl_Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Product_Image" EntityType="Self.Tbl_Product_Image" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Tbl_Product_Image_Tbl_Product" Association="Self.FK_Tbl_Product_Image_Tbl_Product">
+            <End Role="Tbl_Product" EntitySet="Tbl_Product" />
+            <End Role="Tbl_Product_Image" EntitySet="Tbl_Product_Image" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Db_Upload_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Tbl_Product">
+          <Key>
+            <PropertyRef Name="C_id" />
+          </Key>
+          <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="C_price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="Tbl_Product_Image" Relationship="Self.FK_Tbl_Product_Image_Tbl_Product1" FromRole="Tbl_Product" ToRole="Tbl_Product_Image" />
+          <NavigationProperty Name="Tbl_Product_Image1" Relationship="Db_Upload_Model.FK_Tbl_Product_Image_Tbl_Product" FromRole="Tbl_Product" ToRole="Tbl_Product_Image" />
+        </EntityType>
+        <EntityType Name="Tbl_Product_Image">
+          <Key>
+            <PropertyRef Name="C_id" />
+          </Key>
+          <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_id_pro" Type="Int32" Nullable="false" />
+          <Property Name="C_file_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="C_priority" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tbl_Product" Relationship="Self.FK_Tbl_Product_Image_Tbl_Product1" FromRole="Tbl_Product_Image" ToRole="Tbl_Product" />
+          <NavigationProperty Name="Tbl_Product1" Relationship="Db_Upload_Model.FK_Tbl_Product_Image_Tbl_Product" FromRole="Tbl_Product_Image" ToRole="Tbl_Product" />
+        </EntityType>
+        <Association Name="FK_Tbl_Product_Image_Tbl_Product1">
+          <End Role="Tbl_Product" Type="Self.Tbl_Product" Multiplicity="1" />
+          <End Role="Tbl_Product_Image" Type="Self.Tbl_Product_Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Product">
+              <PropertyRef Name="C_id" />
+            </Principal>
+            <Dependent Role="Tbl_Product_Image">
+              <PropertyRef Name="C_id_pro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Db_Upload_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Tbl_Product" EntityType="Self.Tbl_Product" />
+          <EntitySet Name="Tbl_Product_Image" EntityType="Self.Tbl_Product_Image" />
+          <AssociationSet Name="FK_Tbl_Product_Image_Tbl_Product1" Association="Self.FK_Tbl_Product_Image_Tbl_Product1">
+            <End Role="Tbl_Product" EntitySet="Tbl_Product" />
+            <End Role="Tbl_Product_Image" EntitySet="Tbl_Product_Image" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_Product_Image_Tbl_Product" Association="Db_Upload_Model.FK_Tbl_Product_Image_Tbl_Product">
+            <End Role="Tbl_Product" EntitySet="Tbl_Product" />
+            <End Role="Tbl_Product_Image" EntitySet="Tbl_Product_Image" />
+          </AssociationSet>
+          <FunctionImport Name="sp_product_paging" ReturnType="Collection(Db_Upload_Model.sp_product_paging_Result)">
+            <Parameter Name="page" Mode="In" Type="Int32" />
+            <Parameter Name="size" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <Association Name="FK_Tbl_Product_Image_Tbl_Product">
+          <End Type="Db_Upload_Model.Tbl_Product" Role="Tbl_Product" Multiplicity="1" />
+          <End Type="Db_Upload_Model.Tbl_Product_Image" Role="Tbl_Product_Image" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Product">
+              <PropertyRef Name="C_id" />
+            </Principal>
+            <Dependent Role="Tbl_Product_Image">
+              <PropertyRef Name="C_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_product_paging_Result">
+          <Property Type="Int32" Name="C_id" Nullable="false" />
+          <Property Type="String" Name="C_name" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="C_price" Nullable="false" Precision="18" Scale="0" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Db_Upload_ModelStoreContainer" CdmEntityContainer="Db_Upload_Entities">
+          <EntitySetMapping Name="Tbl_Product">
+            <EntityTypeMapping TypeName="Db_Upload_Model.Tbl_Product">
+              <MappingFragment StoreEntitySet="Tbl_Product">
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+                <ScalarProperty Name="C_name" ColumnName="_name" />
+                <ScalarProperty Name="C_price" ColumnName="_price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Product_Image">
+            <EntityTypeMapping TypeName="Db_Upload_Model.Tbl_Product_Image">
+              <MappingFragment StoreEntitySet="Tbl_Product_Image">
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+                <ScalarProperty Name="C_id_pro" ColumnName="_id_pro" />
+                <ScalarProperty Name="C_file_name" ColumnName="_file_name" />
+                <ScalarProperty Name="C_priority" ColumnName="_priority" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_product_paging" FunctionName="Db_Upload_Model.Store.sp_product_paging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Db_Upload_Model.sp_product_paging_Result">
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+                <ScalarProperty Name="C_name" ColumnName="_name" />
+                <ScalarProperty Name="C_price" ColumnName="_price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
